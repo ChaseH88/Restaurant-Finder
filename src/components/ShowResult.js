@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useContext } from "react";
+import React, { Fragment, useContext } from "react";
 import styled from "styled-components";
 
 // Utilities
@@ -11,18 +11,17 @@ const ShowResult = () => {
   
   const { data: { userLatitude, userLongitude } } = useContext(Context);
 
-  const result = () => {
+  const loadData = async () => {
     if(userLatitude === null || userLongitude === null) return null;
-    let locationData = getLocation(userLatitude, userLongitude);
+    let locationData = await getLocation(userLatitude, userLongitude);
     locationData.then(({ data }) => {
       let { link, location, nearby_restaurants, popularity } = data;
       console.log(nearby_restaurants);
     });
     console.log(locationData);
-    return <p>Test</p>
   }
 
-  return result();
+  return loadData();
 }
 
 export default ShowResult;
