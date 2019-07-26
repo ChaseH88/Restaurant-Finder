@@ -8,10 +8,10 @@ const axiosInstance = axios.create({
 
 export async function getLocation(lat, log){
   const data = await axiosInstance.get(`/geocode?lat=${lat}&lon=${log}`);
-  return data;
+  if(data) return data;
 }
 
 export async function getRestaurant(id){
   const data = await axiosInstance.get(`/restaurant?res_id=${id}`);
-  return data;
+  if(data) return data;
 }

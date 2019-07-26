@@ -1,6 +1,7 @@
 import React, { Fragment, useContext, useState } from "react";
 import { Button, Card } from "semantic-ui-react";
 
+import RestaurantList from "./RestaurantList";
 import { Context } from "./Context";
 
 // Utilities
@@ -21,37 +22,23 @@ const GetLocation = () => {
         userLatitude: location.coords.latitude,
       });
     });
-    let locationData = await getLocation(data.userLatitude, data.userLongitude);
-    if(locationData) {
-      setTemp(locationData);
-      setResult(true);
-    }
+    setResult(true);
   }
 
-  const renderResult = () => {
-    let { nearby_restaurants } = temp.data;
-    let res = nearby_restaurants.map(({ restaurant }) => restaurant);
+  if(!result && data.userLongitude === null){
     return(
-      <Card.Group itemsPerRow={3} textAlign={"center"}>
-        {res.map((r, index) => {
-          return(<ShowResult key={index} data={r} color={index % 2 !== 1 ? "odd" : "even"} />)
-        })}
-      </Card.Group>
-    );
+        <Button
+          onClick={() => getGeolocation()}
+          content="Get Location!"
+          icon="location arrow"
+          labelPosition="right"
+          color="green"
+        />
+    )
+  } else {
+    return <RestaurantList data={data} />
   }
 
-  return(
-    <Fragment>
-      <Button
-        onClick={() => getGeolocation()}
-        content="Get Location!"
-        icon="location arrow"
-        labelPosition="right"
-        color="green"
-      />
-      {result && renderResult()}
-    </Fragment>
-  )
 }
 
 export default GetLocation;

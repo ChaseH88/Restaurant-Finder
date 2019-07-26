@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from "react";
+import React, { Fragment, useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { Button, Card, Image, Rating } from 'semantic-ui-react'
 import { Redirect } from "react-router";
@@ -20,7 +20,7 @@ const ShowResult = ({ color, data }) => {
     <Card>
       <Card.Content>
         {thumb !== "" &&
-          <a target="_blank" href={photos_url}>
+          <a target="_blank" rel="noopener noreferrer" href={photos_url}>
             <Image floated='right' size='mini' src={thumb} />
           </a>
         }
