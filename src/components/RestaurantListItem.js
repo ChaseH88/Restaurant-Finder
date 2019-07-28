@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Button, Card, Image, Rating } from 'semantic-ui-react'
 import { Redirect } from "react-router";
 
-const ShowResult = ({ color, data }) => {
+const RestaurantListItem = ({ color, data }) => {
 
   const [redirect, setRedirect] = useState(false);
 
@@ -40,4 +40,4 @@ const ShowResult = ({ color, data }) => {
   )
 }
 
-export default ShowResult;
+export default RestaurantListItem;

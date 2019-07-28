@@ -3,7 +3,7 @@ import { Dimmer, Loader, Card } from "semantic-ui-react";
 import { getLocation } from "../utilities/axios";
 
 // Components
-import ShowResult from "./ShowResult";
+import RestaurantListItem from "./RestaurantListItem";
 
 const RestaurantList = ({ data }) => {
   const { userLatitude, userLongitude } = data;
@@ -24,7 +24,7 @@ const RestaurantList = ({ data }) => {
     return(
       <Card.Group itemsPerRow={3} textAlign={"center"}>
         {res.map((r, index) => {
-          return(<ShowResult key={index} data={r} color={index % 2 !== 1 ? "odd" : "even"} />)
+          return(<RestaurantListItem key={index} data={r} color={index % 2 !== 1 ? "odd" : "even"} />)
         })}
       </Card.Group>
     );

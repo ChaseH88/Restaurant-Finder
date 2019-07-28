@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from "react";
+import React, { Fragment, useEffect, useContext, useState } from "react";
 import { Button, Card } from "semantic-ui-react";
 
 import RestaurantList from "./RestaurantList";
@@ -6,23 +6,36 @@ import { Context } from "./Context";
 
 // Utilities
 import { getLocation } from "../utilities/axios";
-import ShowResult from "./ShowResult";
+import RestaurantListItem from "./RestaurantListItem";
 
 // This will set the context when clicked by the user
-const GetLocation = () => {
+const GetLocation = (props) => {
   const { data, setData } = useContext(Context);
   const [result, setResult] = useState(false);
   const [temp, setTemp] = useState(false);
-  
+  console.log(props);
+  useEffect(() => {
+    if(data.userLongitude && data.userLatitude) setResult(true);
+    return;
+  }, []);
+
   const getGeolocation = async () => {
-    navigator.geolocation.getCurrentPosition(function(location) {
-      setData({
-        ...data,
-        userLongitude: location.coords.longitude,
-        userLatitude: location.coords.latitude,
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(function(location) {
+        setData({
+          ...data,
+          userLongitude: location.coords.longitude,
+          userLatitude: location.coords.latitude,
+        });
+      }, (err) => {
+        if(err.code == err.PERMISSION_DENIED){
+          alert(`APP ERROR: ${err.message}`);
+        }
       });
-    });
-    setResult(true);
+      setResult(true);
+    } else {
+      alert("Geolocation services are not supported by your browser.")
+    }
   }
 
   if(!result && data.userLongitude === null){

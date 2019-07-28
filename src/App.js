@@ -4,6 +4,7 @@ import './App.css';
 import 'semantic-ui-css/semantic.min.css'
 
 // Components
+import PageLayout from "../src/components/PageLayout";
 import AppContext from "../src/components/Context";
 import GetLocation from './components/GetLocation';
 import RestaurantDetails from './components/RestaurantDetails';
@@ -12,8 +13,10 @@ function App(props) {
   return (
     <AppContext>
       <Switch>
-        <Route exact key="/" path="/" component={GetLocation} />
-        <Route exact key="/restaurant/:id" path="/restaurant/:id" component={RestaurantDetails} />
+        <PageLayout>
+          <Route exact key="/" path="/" component={GetLocation} />
+          <Route exact key="/restaurant/:id" path="/restaurant/:id" component={RestaurantDetails} />
+        </PageLayout>
       </Switch>
     </AppContext>
   );
