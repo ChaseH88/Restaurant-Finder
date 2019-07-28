@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { Button, Icon } from "semantic-ui-react";
 
 const Template = styled.div`
   margin: 100px 0 0;
@@ -33,19 +35,25 @@ const Container = styled.div`
 `;
 
 const PageLayout = (props) => {
-  let { children } = props;
-  console.log("Layout")
-  console.log(props);
+  console.log("---------------------------------------")
+  console.log(props.location.pathname);
   return(
     <Template>
       <Header>
         <Container>
-
+          {props.location.pathname !== "/" &&
+            <Link to="/">
+              <Button color="blue" icon labelPosition='left'>
+                <Icon name='home' />
+                Home
+              </Button>
+            </Link>
+          }
         </Container>
       </Header>
       <Body>
         <Container>
-          {children}
+          {props.children}
         </Container>
       </Body>
       <Footer>

@@ -7,20 +7,21 @@ import RestaurantListItem from "./RestaurantListItem";
 
 const RestaurantList = ({ data }) => {
   const { userLatitude, userLongitude } = data;
-  const [restaurants, setRestaurants] = useState(null);
+  const [restaurantsData, setRestaurantsData] = useState(null);
+
   useEffect(() => {
     if(userLatitude !== null && userLongitude !== null){
       (async function getData(){
         let result = await getLocation(userLatitude, userLongitude);
-        setRestaurants(result);
+        setRestaurantsData(result);
         return;
       })();
     }
   }, [data]);
 
-  if(restaurants){
-    let { nearby_restaurants } = restaurants.data;
-    let res = nearby_restaurants.map(({ restaurant }) => restaurant);
+  if(restaurantsData){
+    let { restaurants } = restaurantsData.data;
+    let res = restaurants.map(({ restaurant }) => restaurant);
     return(
       <Card.Group itemsPerRow={3} textAlign={"center"}>
         {res.map((r, index) => {

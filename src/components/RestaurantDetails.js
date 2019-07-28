@@ -34,6 +34,22 @@ const RestaurantDetails = ({ history, match: { params } }) => {
       setDetails(result);
     })();
   }, []);
+
+  const calcButtonColor = (rating) => {
+    let color, rate = Math.floor(rating);
+    rate > 3 && (color = "green");
+    rate === 3 && (color = "teal");
+    rate < 3 && (color = "red");
+    rating === 0 && (color = "")
+    return color;
+  }
+
+  const calcButtonIcon = (rating) => {
+    let rate = Math.floor(rating);
+    if(rate >= 3) return "thumbs up";
+    if(rate < 3 && rate > 0) return "thumbs down";
+    if(rating === 0) return "question";
+  }
   
   if(details){
     let {
@@ -60,12 +76,6 @@ const RestaurantDetails = ({ history, match: { params } }) => {
           <Header.Content>{name}</Header.Content>
         </Header>
         <Segment secondary raised>
-          <Link to="/">
-          <Button color="blue" icon labelPosition='left'>
-            <Icon name='home' />
-            Home
-          </Button>
-          </Link>
           <span style={{fontWeight: "700", fontStyle: "italic"}}>
             {`${address}, ${city} (${locality}), ${zipcode}`}<br />
             <a href={`tel:${phone_numbers}`}>
@@ -83,10 +93,10 @@ const RestaurantDetails = ({ history, match: { params } }) => {
               </Header>
               <Menu stackable className="highlightMenu">
                 {highlights.map(highlight => 
-                  <Menu.Item>{highlight}</Menu.Item>
+                  <Menu.Item key={`highlight-${highlight}`}>{highlight}</Menu.Item>
                 )}
               </Menu>
-              <RestaurantPhotos photos={photos} />
+              {photos && <RestaurantPhotos photos={photos} />}
             </Segment>
           </div>
           <div className="right">
@@ -95,8 +105,8 @@ const RestaurantDetails = ({ history, match: { params } }) => {
               <Rating size="massive" disabled={true} icon='star' defaultRating={aggregate_rating} maxRating={5} />
               <br />
               <Button
-                color={Math.floor(aggregate_rating) >= 3 ? "green" : "red"}
-                icon={Math.floor(aggregate_rating) >= 3 ? "thumbs up" : "thumbs down"}
+                color={calcButtonColor(aggregate_rating)}
+                icon={calcButtonIcon(aggregate_rating)}
                 content={rating_text}
               />
               <RestaurantComments reviews={reviews} />

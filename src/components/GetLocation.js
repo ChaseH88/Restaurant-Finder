@@ -13,7 +13,7 @@ const GetLocation = (props) => {
   const { data, setData } = useContext(Context);
   const [result, setResult] = useState(false);
   const [temp, setTemp] = useState(false);
-  console.log(props);
+  
   useEffect(() => {
     if(data.userLongitude && data.userLatitude) setResult(true);
     return;
@@ -27,6 +27,7 @@ const GetLocation = (props) => {
           userLongitude: location.coords.longitude,
           userLatitude: location.coords.latitude,
         });
+        console.log(data);
       }, (err) => {
         if(err.code == err.PERMISSION_DENIED){
           alert(`APP ERROR: ${err.message}`);

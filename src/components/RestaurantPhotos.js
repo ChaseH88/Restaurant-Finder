@@ -8,7 +8,7 @@ const RestaurantPhotos = ({ photos }) => {
 
   return(
     photos.map(({ photo: { id, url, thumb_url } }, index) => (
-      <Modal trigger={
+      <Modal key={`photo${id}`} trigger={
         <Button className="modalImage" onClick={() => {
           setModal(true);
           setPhotoNum(index);

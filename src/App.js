@@ -9,6 +9,8 @@ import AppContext from "../src/components/Context";
 import GetLocation from './components/GetLocation';
 import RestaurantDetails from './components/RestaurantDetails';
 
+import LocationFilter from "./components/LocationFilter";
+
 function App(props) {
   return (
     <AppContext>
