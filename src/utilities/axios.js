@@ -15,9 +15,7 @@ const opencageInstance = axios.create({
 let opencageKey = "80894e807146474bb4d97d785ecaefb2";
 
 export async function getLocation(lat, log){
-  console.log("Function Start", lat, log);
   const data = await axiosInstance.get(`/search?count=40&lat=${lat}&lon=${log}&radius=16093.4&sort=real_distance`);
-  console.log(data);
   if(data) return data;
 }
 
@@ -27,6 +25,6 @@ export async function getRestaurant(id){
 }
 
 export async function getCityLocation(city, state){
-  const data = await opencageInstance.get(`/json?q=${city}%2C%20${state}&key=${opencageKey}&language=en&pretty=1`)
+  const data = await opencageInstance.get(`/json?q=${city}%2C%20${state}&key=${opencageKey}&language=en&pretty=1`);
   if(data) return data;
 }

@@ -18,7 +18,8 @@ const LocationFilter = (props) => {
   const [foundLocations, setFoundLocations] = useState({
     selected: null,
     locations: null
-  })
+  });
+  const [showFilter, setShowFilter] = useState(false);
 
   const handleChange = ({ target: { name, value }}) => {
     setUserInput({
@@ -36,6 +37,7 @@ const LocationFilter = (props) => {
         ...foundLocations,
         locations: results
       });
+      console.log(cityData.data)
     }
   }
 
@@ -45,6 +47,7 @@ const LocationFilter = (props) => {
         <Form.Group widths='equal'>
           <Form.Input fluid label='City Name' placeholder='' name="city" onChange={(e) => handleChange(e)} />
           <Form.Select fluid label='Select State' options={states} placeholder='Select' onChange={(e, { value }) => setUserInput({ ...userInput, "state": value })} />
+          <Form.Input type="checkbox" label={showFilter ? `Hide Filters` : `Show Filters`} onChange={() => setShowFilter(!showFilter)} />
         </Form.Group>
         <Form.Button>Search!</Form.Button>
       </Form>
