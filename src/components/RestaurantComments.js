@@ -1,7 +1,6 @@
 import React from "react";
 import { Comment } from "semantic-ui-react";
-const RestaurantComments = ({ reviews }) => {
-    return(
+const RestaurantComments = ({ reviews }) => (
     <Comment.Group style={{maxWidth: "none"}}>
       {reviews.map(({ review: { id, rating_text, review_text, review_time_friendly, user } }) => {
         return(
@@ -30,7 +29,6 @@ const RestaurantComments = ({ reviews }) => {
         )
       })}
     </Comment.Group>
-  )
-}
+)
 
 export default RestaurantComments;

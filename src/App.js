@@ -16,7 +16,7 @@ function App(props) {
     <AppContext>
       <Switch>
         <PageLayout>
-          <Route exact key="/" path="/" component={LocationFilter} />
+          <Route exact key="/" path="/" component={GetLocation} />
           <Route exact key="/restaurant/:id" path="/restaurant/:id" component={RestaurantDetails} />
         </PageLayout>
       </Switch>

@@ -6,7 +6,8 @@ const AppContext = ({ children }) => {
 
   const [data, setData] = useState({
     userLongitude: null,
-    userLatitude: null
+    userLatitude: null,
+    distance: null
   });
 
   return(

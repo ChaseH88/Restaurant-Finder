@@ -35,8 +35,6 @@ const Container = styled.div`
 `;
 
 const PageLayout = (props) => {
-  console.log("---------------------------------------")
-  console.log(props.location.pathname);
   return(
     <Template>
       <Header>

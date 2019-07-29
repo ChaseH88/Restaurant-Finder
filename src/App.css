@@ -50,6 +50,8 @@ h1, h2, h3, h4, h5, h6, p, a, li, ul, span, label {
   }
 }
 
+/* Home Page */
+.rangeslider.rangeslider-horizontal {min-width: 300px;}
 
 /* Restaurant Details */
 /*highlight menu*/

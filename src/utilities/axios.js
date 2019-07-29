@@ -14,8 +14,11 @@ const opencageInstance = axios.create({
 
 let opencageKey = "80894e807146474bb4d97d785ecaefb2";
 
-export async function getLocation(lat, log){
-  const data = await axiosInstance.get(`/search?count=40&lat=${lat}&lon=${log}&radius=16093.4&sort=real_distance`);
+
+// meters in a mile = 1609.34;
+export async function getLocation(lat, log, distance){
+  if(!distance) distance = (1609.34 * 10) // default is 10 miles if none is selected.
+  const data = await axiosInstance.get(`/search?count=40&lat=${lat}&lon=${log}&radius=${distance}&sort=real_distance`);
   if(data) return data;
 }
 
