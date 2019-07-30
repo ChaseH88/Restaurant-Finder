@@ -2,6 +2,7 @@ import React, { Fragment, useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { Button, Card, Image, Rating } from 'semantic-ui-react'
 import { Redirect } from "react-router";
+import currencyFormatter from "currency-formatter";
 
 const RestaurantListItem = ({ color, data }) => {
 
@@ -27,7 +28,7 @@ const RestaurantListItem = ({ color, data }) => {
         <Card.Header>{name}</Card.Header>
         <Card.Meta><p><em>{address},</em> {city}</p></Card.Meta>
         <Card.Description>
-        <p>Average Cost for Two: <strong>{average_cost_for_two !== 0 ? average_cost_for_two : "?"}</strong></p>
+        <p>Average Cost for Two: <strong>{average_cost_for_two !== 0 ? currencyFormatter.format(average_cost_for_two, { locale: 'en-US' }) : "?"}</strong></p>
         <Rating disabled={true} icon='star' defaultRating={aggregate_rating} maxRating={5} />
         <Button size="mini" color="black" onClick={() => setRedirect(true)}>See More</Button>
         </Card.Description>

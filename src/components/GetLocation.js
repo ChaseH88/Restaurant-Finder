@@ -4,7 +4,7 @@ import Slider from 'react-rangeslider';
 import { Context } from "./Context";
 
 // Utilities
-import { getLocation, getCityLocation } from "../utilities/axios";
+import { getLocation, getCityLocation, getCuisines, filteredCitySearch } from "../utilities/axios";
 import { states } from "../utilities/states";
 
 // Components
@@ -22,6 +22,7 @@ const GetLocation = (props) => {
     locations: null
   });
   const [showFilter, setShowFilter] = useState(false);
+  const [cuisineList, setCuisineList] = useState([]);
 
   useEffect(() => {
     if(data.userLongitude && data.userLatitude) setResult(true);
@@ -52,21 +53,69 @@ const GetLocation = (props) => {
     setUserInput({
       ...userInput,
       [name]: value,
-      distance: 5
+      distance: 5,
+      cuisineArr: []
     });
     console.log(userInput);
   }
 
   const handleSubmit = async () => {
-    let { city, state, distance } = userInput;
-    let cityData = null || await getCityLocation(city, state, distance);
+    let { distance, cuisineArr } = userInput;
+    let { latitude, longitude } = temp;
+    let cityData = await filteredCitySearch(latitude, longitude, distance, cuisineArr);
     if(cityData){
       let { results } = cityData.data;
       setFoundLocations({
         ...foundLocations,
         locations: results
       });
-      console.log(cityData.data)
+      setResult(true);
+    }
+  }
+
+  const handleFilter = async () => {
+    if(showFilter) return;
+    let { city, state } = userInput;
+    let cityData = null || await getCityLocation(city, state);
+    let { lat, lng } = cityData.data.results[0].geometry;
+    let cuisineData = null || await getCuisines(lat, lng);
+    let { cuisines } = cuisineData.data;
+    setTemp({
+      ...temp,
+      longitude: lng,
+      latitude: lat
+    });
+    setCuisineList(cuisines);
+    setShowFilter(!showFilter);
+  }
+
+  const showCuisineList = () => {
+    if(!cuisineList.length) return;
+    return(
+      <div style={{height: "200px", overflowX: "hidden"}}>
+        {cuisineList.map(({ cuisine }) => {
+        return(
+          <Form.Input type="checkbox" key={cuisine.cuisine_id} value={cuisine.cuisine_id} fluid label={`${cuisine.cuisine_name}`} onChange={(e) => handleCuisineChange(e)} />
+        )
+        })}
+      </div>
+    )
+  }
+
+  const handleCuisineChange = (e) => {
+    let { value } = e.target;
+    let found = userInput.cuisineArr.find((id) => (id === value));
+    if(found){
+      let filteredArr = userInput.cuisineArr.filter(id => id !== value);
+      setUserInput({
+        ...userInput,
+        cuisineArr: filteredArr
+      });
+    } else {
+      setUserInput({
+        ...userInput,
+        cuisineArr: [...userInput.cuisineArr, value]
+      });
     }
   }
 
@@ -90,7 +139,7 @@ const GetLocation = (props) => {
                 </Form.Group>
                 {userInput.city && userInput.state &&
                   <Form.Group>
-                    <Form.Input type="checkbox" label={showFilter ? `Hide Filters` : `Show Filters`} onChange={() => setShowFilter(!showFilter)} />
+                    <Form.Input type="checkbox" label={showFilter ? `Hide Filters` : `Show Filters`} onChange={() => handleFilter()} />
                   </Form.Group>
                 }
                 {userInput.city && userInput.state &&
@@ -120,6 +169,9 @@ const GetLocation = (props) => {
                 <Form.Group>
                   <Slider style={{minWidth: "300px"}} min={1} max={25} value={userInput.distance} orientation='horizontal' onChange={(e) => setUserInput({ ...userInput, "distance": e })} name="distance" />
                     <div className='value'>{userInput.distance} Miles</div>
+                </Form.Group>
+                <Form.Group>
+                  {showCuisineList()}
                 </Form.Group>
               </Grid.Column>
             }

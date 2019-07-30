@@ -45,6 +45,10 @@ const LocationFilter = (props) => {
     }
   }
 
+  const handleFilters = () => {
+    
+  }
+
   return(
     <Fragment>
       <Form onSubmit={() => handleSubmit()}>
@@ -54,7 +58,7 @@ const LocationFilter = (props) => {
         </Form.Group>
         {userInput.city && userInput.state &&
           <Form.Group>
-            <Form.Input type="checkbox" label={showFilter ? `Hide Filters` : `Show Filters`} onChange={() => setShowFilter(!showFilter)} />
+            <Form.Input type="checkbox" label={showFilter ? `Hide Filters` : `Show Filters`} onChange={() => handleFilters()} />
             <Slider style={{minWidth: "300px"}} min={1} max={25} value={userInput.distance} orientation='horizontal' onChange={(e) => setUserInput({ ...userInput, "distance": e })} name="distance" />
             <div className='value'>{userInput.distance} Miles</div>
           </Form.Group>
